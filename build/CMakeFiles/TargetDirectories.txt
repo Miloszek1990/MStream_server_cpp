@@ -1,0 +1,3 @@
+/home/mimi/Pulpit/learn_networking/sockets/build/CMakeFiles/rebuild_cache.dir
+/home/mimi/Pulpit/learn_networking/sockets/build/CMakeFiles/edit_cache.dir
+/home/mimi/Pulpit/learn_networking/sockets/build/CMakeFiles/MStream_server.dir

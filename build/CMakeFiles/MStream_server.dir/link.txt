@@ -1,0 +1,1 @@
+/usr/bin/c++   -std=c++17 -g   CMakeFiles/MStream_server.dir/home/mimi/Pulpit/learn_networking/sockets/main.cpp.o CMakeFiles/MStream_server.dir/home/mimi/Pulpit/learn_networking/sockets/source/Server.cpp.o  -o MStream_server 
