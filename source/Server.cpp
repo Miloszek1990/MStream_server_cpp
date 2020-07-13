@@ -8,7 +8,7 @@
 #include "../include/Server.hpp"
 
 Server::Server(int port, int bufferSize): 
-	port_(port),
+  port_(port),
   bufferSize_(bufferSize)
 {}
 
@@ -26,8 +26,10 @@ void Server::getData( int sockfd, char* buffer) {
   buffer[n] = '\0';
 }
 
-void Server::initializeConnection(int& sockfd, sockaddr_in& serv_addr, sockaddr_in& cli_addr)
+void Server::initializeConnection(int& sockfd, sockaddr_in& cli_addr)
 {
+    sockaddr_in serv_addr;
+ 
     std::cout << "Using port " << port_ << std::endl;
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0) 
