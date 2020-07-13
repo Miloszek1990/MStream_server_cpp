@@ -12,6 +12,12 @@ iostream
 string
 -
 
+/home/mimi/Pulpit/learn_networking/sockets/main.cpp
+netinet/in.h
+-
+./include/Server.hpp
+/home/mimi/Pulpit/learn_networking/sockets/include/Server.hpp
+
 /home/mimi/Pulpit/learn_networking/sockets/source/Server.cpp
 iostream
 -
