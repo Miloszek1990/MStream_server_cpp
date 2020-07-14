@@ -18,38 +18,23 @@ Server::Server(int port, int bufferSize, int imgWdth, int imgHght):
 
 Server::~Server(){}
 
-void Server::error( char* msg ) {
-  perror( msg );
-  exit(1);
-}
-
-void Server::getFrame(int& sockfd) {
+void Server::getFrame(int sockfd, int imgSize, cv::Mat& img) {
     
     int bytes;
-    int imgSize = imgHght_ * imgWdth_  * 3;
     unsigned char sockData[imgSize];
-    cv::Mat img = cv::Mat::zeros( imgHght_, imgWdth_, CV_8UC3);
-
     for (int i = 0; i < imgSize; i += bytes) {
         bytes = recv(sockfd, sockData + i, imgSize  - i, 0);
     }
+
     // Assign pixel value to img
-    int ptr=0;
+    int ptr = 0;
     for (int i = 0;  i < img.rows; i++) {
         for (int j = 0; j < img.cols; j++) {                                     
-          img.at<cv::Vec3b>(i,j) = cv::Vec3b(sockData[ptr+ 0], sockData[ptr+1], sockData[ptr+2]);
+          img.at<cv::Vec3b>(i,j) = cv::Vec3b(sockData[ptr + 0], sockData[ptr + 1], sockData[ptr + 2]);
           ptr = ptr + 3;
         }
     }
-
-    // img(cv::Size(imgWdth_, imgHght_), CV_8UC3, sockData);
-    cv::imwrite("../aaa.png", img);
-  /*
-  int n;
-  if ( (n = read(sockfd, buffer, bufferSize_-1) ) < 0 )
-    error( const_cast<char *>( "ERROR reading from socket") );
-  buffer[n] = '\0';
-  */
+    //img(cv::Size(imgWdth_, imgHght_), CV_8UC3, sockData);
 }
 
 void Server::initializeConnection(int& sockfd, sockaddr_in& cli_addr)
@@ -72,18 +57,20 @@ void Server::initializeConnection(int& sockfd, sockaddr_in& cli_addr)
 
 void Server::streamLoop(int& sockfd, int& newSockfd, sockaddr_in& cli_addr)
 {
-    char* buffer = new char[bufferSize_];
     int cli_len = sizeof(cli_addr);
+    int imgSize = imgHght_ * imgWdth_  * 3;
     
     //--- infinite wait on a connection ---
     while ( 1 ) {
-        std::cout << "Waiting for new client..." << std::endl;
-        if ( ( newSockfd = accept( sockfd, (struct sockaddr *) &cli_addr, (socklen_t*) &cli_len) ) < 0 )
-            perror( const_cast<char *>("ERROR on accept") );
-        std::cout << "Opened new communication with client" << std::endl;
+      std::cout << "Waiting for new client..." << std::endl;
+      if ( ( newSockfd = accept( sockfd, (struct sockaddr *) &cli_addr, (socklen_t*) &cli_len) ) < 0 )
+        perror( const_cast<char *>("ERROR on accept") );
+      std::cout << "Opened new communication with client" << std::endl;
 
-        getFrame( newSockfd );
-        //close( newSockfd );
+      cv::Mat img = cv::Mat::zeros( imgHght_, imgWdth_, CV_8UC3);
 
+      getFrame( newSockfd, imgSize, img);
+      cv::imwrite("../aaa.png", img);
     }
+    close( newSockfd );
 }
