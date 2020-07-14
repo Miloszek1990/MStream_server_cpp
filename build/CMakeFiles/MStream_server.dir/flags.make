@@ -6,5 +6,5 @@ CXX_FLAGS =  -std=c++17 -g   -std=gnu++17
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/mimi/Pulpit/learn_networking/sockets/build/../include 
+CXX_INCLUDES = -I/home/mimi/Pulpit/learn_networking/sockets/build/../include -isystem /usr/local/include/opencv4 
 

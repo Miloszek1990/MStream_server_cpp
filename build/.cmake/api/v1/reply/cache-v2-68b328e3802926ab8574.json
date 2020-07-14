@@ -1122,6 +1122,18 @@
 			"value" : "FALSE"
 		},
 		{
+			"name" : "FIND_PACKAGE_MESSAGE_DETAILS_OpenCV",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Details about finding OpenCV"
+				}
+			],
+			"type" : "INTERNAL",
+			"value" : "[/usr/local][v4.4.0()]"
+		},
+		{
 			"name" : "MStream_BINARY_DIR",
 			"properties" : 
 			[
@@ -1168,6 +1180,18 @@
 			],
 			"type" : "STATIC",
 			"value" : "/home/mimi/Pulpit/learn_networking/sockets/build"
+		},
+		{
+			"name" : "OpenCV_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "The directory containing a CMake configuration file for OpenCV."
+				}
+			],
+			"type" : "PATH",
+			"value" : "/usr/local/lib/cmake/opencv4"
 		}
 	],
 	"kind" : "cache",
