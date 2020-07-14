@@ -5,11 +5,15 @@
 #include <string.h>
 #include <unistd.h>
 
+#include <opencv2/opencv.hpp>
+
 #include "../include/Server.hpp"
 
-Server::Server(int port, int bufferSize): 
+Server::Server(int port, int bufferSize, int imgWdth, int imgHght): 
   port_(port),
-  bufferSize_(bufferSize)
+  bufferSize_(bufferSize),
+  imgWdth_(imgWdth),
+  imgHght_(imgHght)
 {}
 
 Server::~Server(){}
@@ -19,11 +23,33 @@ void Server::error( char* msg ) {
   exit(1);
 }
 
-void Server::getData( int sockfd, char* buffer) {
+void Server::getFrame(int& sockfd) {
+    
+    int bytes;
+    int imgSize = imgHght_ * imgWdth_  * 3;
+    unsigned char sockData[imgSize];
+    cv::Mat img = cv::Mat::zeros( imgHght_, imgWdth_, CV_8UC3);
+
+    for (int i = 0; i < imgSize; i += bytes) {
+        bytes = recv(sockfd, sockData + i, imgSize  - i, 0);
+    }
+    // Assign pixel value to img
+    int ptr=0;
+    for (int i = 0;  i < img.rows; i++) {
+        for (int j = 0; j < img.cols; j++) {                                     
+          img.at<cv::Vec3b>(i,j) = cv::Vec3b(sockData[ptr+ 0], sockData[ptr+1], sockData[ptr+2]);
+          ptr = ptr + 3;
+        }
+    }
+
+    // img(cv::Size(imgWdth_, imgHght_), CV_8UC3, sockData);
+    cv::imwrite("../aaa.png", img);
+  /*
   int n;
   if ( (n = read(sockfd, buffer, bufferSize_-1) ) < 0 )
     error( const_cast<char *>( "ERROR reading from socket") );
   buffer[n] = '\0';
+  */
 }
 
 void Server::initializeConnection(int& sockfd, sockaddr_in& cli_addr)
@@ -56,10 +82,8 @@ void Server::streamLoop(int& sockfd, int& newSockfd, sockaddr_in& cli_addr)
             perror( const_cast<char *>("ERROR on accept") );
         std::cout << "Opened new communication with client" << std::endl;
 
-        getData( newSockfd , buffer);
-        std::string data = std::string(buffer);
-        std::cout << data << std::endl;
+        getFrame( newSockfd );
+        //close( newSockfd );
 
-        close( newSockfd );
     }
 }
