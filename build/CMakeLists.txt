@@ -6,7 +6,13 @@ set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17" )
 
 project( MStream_server )
 
-include_directories( ../include/ )
+find_package( OpenCV REQUIRED )
+message(${OpenCV_INCLUDE_DIRS})
+
+include_directories( 
+    ../include/
+    ${OpenCV_INCLUDE_DIRS} 
+)
 
 add_executable(
     ${PROJECT_NAME}
@@ -14,4 +20,6 @@ add_executable(
     ../source/Server.cpp
 )
 
-target_link_libraries( ${PROJECT_NAME} )
+
+target_link_libraries( ${PROJECT_NAME} 
+                       ${OpenCV_LIBS} )
