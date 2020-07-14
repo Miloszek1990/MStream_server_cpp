@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 
+#include <opencv2/opencv.hpp>
+
 class Server
 {
     private:
@@ -9,8 +11,7 @@ class Server
         int imgWdth_;
         int imgHght_;
 
-        void error( char* );
-        void getFrame(int& sockfd);
+        void getFrame(int, int, cv::Mat&);
 
     public:
         Server(int, int, int, int);
