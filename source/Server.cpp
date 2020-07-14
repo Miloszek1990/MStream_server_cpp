@@ -59,7 +59,7 @@ void Server::streamLoop(int& sockfd, int& newSockfd, sockaddr_in& cli_addr)
 {
     int cli_len = sizeof(cli_addr);
     int imgSize = imgHght_ * imgWdth_  * 3;
-    
+
     //--- infinite wait on a connection ---
     while ( 1 ) {
       std::cout << "Waiting for new client..." << std::endl;
@@ -68,9 +68,8 @@ void Server::streamLoop(int& sockfd, int& newSockfd, sockaddr_in& cli_addr)
       std::cout << "Opened new communication with client" << std::endl;
 
       cv::Mat img = cv::Mat::zeros( imgHght_, imgWdth_, CV_8UC3);
-
       getFrame( newSockfd, imgSize, img);
-      cv::imwrite("../aaa.png", img);
+      //cv::imwrite("../aaa.png", img);
     }
     close( newSockfd );
 }
